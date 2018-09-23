@@ -159,7 +159,7 @@ void HardClippingAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 		for (auto sample = 0; sample < buffer.getNumSamples(); ++sample)
 		{
 			current = bufferToFill[sample];
-			averagingBuffer[channel][currentBufferIndex[channel]] = current;
+			averagingBuffer[channel][currentBufferIndex[channel]] = current * current;
 			currentBufferIndex[channel] += 1;
 
 			if (currentBufferIndex[channel] == averagingBuffer[channel].size())
