@@ -178,59 +178,6 @@ void HardClippingAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 				if (gateMultiplier[channel] < 0.0) gateMultiplier[channel] = 0.0;
 			}
 			bufferToFill[sample] = current * gateMultiplier[channel];
-			if (channel == 1)
-			{
-				;
-			}
-			/*
-			switch (channel)
-			{
-				case 0:
-				{
-					averagingBufferCH0[currentBufferIndexCH0] = current * current;
-					currentBufferIndexCH0 += 1;
-					if (currentBufferIndexCH0 == averagingBufferCH0.size())
-					{
-						currentBufferIndexCH0 = 0;
-					}
-					averagedValue = std::accumulate(averagingBufferCH0.begin(), averagingBufferCH0.end(), 0.0) / (double)(averagingBufferCH0.size());
-					if ((averagedValue > gateThreshold) && (gateMultiplierCH0 < 1.0))
-					{
-						gateMultiplierCH0 += attackRate;
-						if (gateMultiplierCH0 > 1.0) gateMultiplierCH0 = 1.0;
-					}
-					if (((averagedValue < gateThreshold) && (gateMultiplierCH0 > 0.0)))
-					{
-						gateMultiplierCH0 -= decayRate;
-						if (gateMultiplierCH0 < 0.0) gateMultiplierCH0 = 0.0;
-					}
-					bufferToFill[sample] = current * gateMultiplierCH0;
-					break;
-				}
-				case 1:
-				{
-					averagingBufferCH1[currentBufferIndexCH1] = current * current;
-					currentBufferIndexCH1 += 1;
-					if (currentBufferIndexCH1 == averagingBufferCH1.size())
-					{
-						currentBufferIndexCH1 = 0;
-					}
-					averagedValue = std::accumulate(averagingBufferCH1.begin(), averagingBufferCH1.end(), 0.0) / (double)(averagingBufferCH1.size());
-					if ((averagedValue > gateThreshold) && (gateMultiplierCH1 < 1.0))
-					{
-						gateMultiplierCH1 += attackRate;
-						if (gateMultiplierCH1 > 1.0) gateMultiplierCH1 = 1.0;
-					}
-					if ((averagedValue < gateThreshold / 4.0) && (gateMultiplierCH1 > 0.0))
-					{
-						gateMultiplierCH1 -= decayRate;
-						if (gateMultiplierCH1 < 0.0) gateMultiplierCH1 = 0.0;
-					}
-
-					bufferToFill[sample] = current * gateMultiplierCH1;
-					break;
-				}
-			}*/
 		}
 	}
 }

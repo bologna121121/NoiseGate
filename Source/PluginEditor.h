@@ -32,13 +32,30 @@ private:
     // access the processor object that created it.
     HardClippingAudioProcessor& processor;
 
-	int sliderNumber = 3;
-	int sliderHeight = 60;
-	int sliderWidth = 20;
+	enum sliderTypes 
+	{
+		coefficientSlider = 0,
+		decayRateSlider = 1,
+		gateSlider = 2
+	};
 
-	Slider coefficientSlider;
-	Slider decayRateSlider;
-	Slider gateSlider;
+	// Values below are expressed as fractions of the current window width and height
+
+	int sliderCount = 3;
+	double sliderAreaCornerX = 0;
+	double sliderAreaCornerY = 0;
+	double sliderAreaHeight = 1.0;
+	double sliderAreaWidth = 1.0;
+	double sliderVerticalMargin = 0.1;
+	double sliderLabelHeight = 0.1;
+	double sliderWidth = 0.066667;
+	double sliderHeight = sliderAreaHeight - 2 * sliderVerticalMargin - sliderLabelHeight;
+	double gapWidth = (sliderAreaWidth - sliderCount * sliderWidth) / (sliderCount + 1.0);
+	double sliderLabelWidth = gapWidth + sliderWidth;
+	std::vector<Slider> sliders{3};
+	std::vector<String> sliderLabels{3};
+
+	
 
 	void sliderValueChanged(Slider* slider) override;
 
