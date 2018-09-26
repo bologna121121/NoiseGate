@@ -95,7 +95,12 @@ void HardClippingAudioProcessor::changeProgramName (int index, const String& new
 //==============================================================================
 void HardClippingAudioProcessor::prepareToPlay (double sampleRate, int samplesPerBlock)
 {
-	currentSamplingRate = sampleRate;
+	for (int i = 0; i < (int)(averagingBuffer.size()); i++)
+	{
+		averagingBuffer[i].resize((int)(averagingBufferDuration * sampleRate), 0.0);
+	}
+
+	currentSampleRate = sampleRate;
 }
 
 void HardClippingAudioProcessor::releaseResources()
@@ -159,24 +164,40 @@ void HardClippingAudioProcessor::processBlock (AudioBuffer<float>& buffer, MidiB
 		for (auto sample = 0; sample < buffer.getNumSamples(); ++sample)
 		{
 			current = bufferToFill[sample];
+
 			averagingBuffer[channel][currentBufferIndex[channel]] = current * current;
 			currentBufferIndex[channel] += 1;
-
 			if (currentBufferIndex[channel] == averagingBuffer[channel].size())
 			{
 				currentBufferIndex[channel] = 0;
 			}
+
 			averagedValue = std::accumulate(averagingBuffer[channel].begin(), averagingBuffer[channel].end(), 0.0) / (double)(averagingBuffer[channel].size());
-			if ((averagedValue > gateThreshold) && (gateMultiplier[channel] < 1.0))
+
+			if (isOpen[channel] == true)
 			{
+				openTime[channel] += 1 / currentSampleRate;
 				gateMultiplier[channel] += attackRate;
 				if (gateMultiplier[channel] > 1.0) gateMultiplier[channel] = 1.0;
+
+				if ((averagedValue < gateThreshold) && (openTime[channel] > holdTime))
+				{
+					isOpen[channel] = false;
+					openTime[channel] = 0.0;
+				}
 			}
-			if ((averagedValue < gateThreshold) && (gateMultiplier[channel] > 0.0))
+
+			if (isOpen[channel] == false)
 			{
 				gateMultiplier[channel] -= decayRate;
 				if (gateMultiplier[channel] < 0.0) gateMultiplier[channel] = 0.0;
+
+				if (averagedValue > gateThreshold)
+				{
+					isOpen[channel] = true;
+				}
 			}
+
 			bufferToFill[sample] = current * gateMultiplier[channel];
 		}
 	}

@@ -59,23 +59,20 @@ public:
     void getStateInformation (MemoryBlock& destData) override;
     void setStateInformation (const void* data, int sizeInBytes) override;
 
-	float coefficientLevel = 1.0;
-	float clippingLevel = 0.1;
-	float gateThreshold = 0.0;
-
-	double currentSamplingRate;
-	int currentBufferIndexCH0 = 0;
-	int currentBufferIndexCH1 = 0;
-	double gateMultiplierCH0 = 0.0;
-	double gateMultiplierCH1 = 0.0;
+	double gateThreshold = 0.0;
 	double attackRate = 0.02;
 	double decayRate = 0.02;
-	std::vector<float> averagingBufferCH0 = std::vector<float>(700, 0.0);
-	std::vector<float> averagingBufferCH1 = std::vector<float>(700, 0.0);
+	double holdTime = 0.5;
+	double currentSampleRate = 0.0;
+
+	double averagingBufferDuration = 0.015;
 
 	std::vector<int> currentBufferIndex{ 0,0 };
 	std::vector<double> gateMultiplier{ 0,0 };
-	std::vector<std::vector<float>> averagingBuffer = std::vector<std::vector<float>>(2, std::vector<float>(700, 0.0));
+	std::vector<double> openTime{ 0.0, 0.0 };
+	std::vector<bool> isOpen{ false, false };
+	std::vector<std::vector<float>> averagingBuffer = std::vector<std::vector<float>>(2, std::vector<float>(0, 0.0));
+	
 
 
 private:

@@ -31,20 +31,25 @@ HardClippingAudioProcessorEditor::HardClippingAudioProcessorEditor (HardClipping
 
 		switch (i)
 		{
-		case coefficientSlider:
-			sliders[i].setRange(0.0, 1.0, 0.001);
-			sliders[i].setValue(0.5);
-			sliderLabels[i] = "Coefficient";
-			break;
-		case decayRateSlider:
-			sliders[i].setRange(0.0001, 0.5, 0.001);
-			sliders[i].setValue(0.0001);
-			sliderLabels[i] = "Decay";
-			break;
 		case gateSlider:
 			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
 			sliders[gateSlider].setValue(0.0);
-			sliderLabels[i] = "Gate";
+			sliderLabels[i] = "Threshold";
+			break;
+		case attackSlider:
+			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
+			sliders[gateSlider].setValue(0.0);
+			sliderLabels[i] = "Attack";
+			break;
+		case decaySlider:
+			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
+			sliders[gateSlider].setValue(0.0);
+			sliderLabels[i] = "Decay";
+			break;
+		case holdSlider:
+			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
+			sliders[gateSlider].setValue(0.0);
+			sliderLabels[i] = "Hold";
 			break;
 		}
 	}
@@ -86,7 +91,5 @@ void HardClippingAudioProcessorEditor::resized()
 
 void HardClippingAudioProcessorEditor::sliderValueChanged(Slider * slider)
 {
-	processor.coefficientLevel = sliders[coefficientSlider].getValue();
-	processor.decayRate = sliders[decayRateSlider].getValue();
 	processor.gateThreshold = sliders[gateSlider].getValue();
 }

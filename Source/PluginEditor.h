@@ -34,13 +34,14 @@ private:
 
 	enum
 	{
-		coefficientSlider = 0,
-		decayRateSlider = 1,
-		gateSlider = 2
+		gateSlider = 0,
+		attackSlider = 1,
+		decaySlider = 2,
+		holdSlider = 3
 	};
 
 	// Values below are expressed as fractions of the current window width and height
-	int sliderCount = 3;
+	int sliderCount = 4;
 	double sliderAreaCornerX = 0;
 	double sliderAreaCornerY = 0;
 	double sliderAreaHeight = 1 - sliderAreaCornerY;
