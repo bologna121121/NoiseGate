@@ -32,26 +32,26 @@ HardClippingAudioProcessorEditor::HardClippingAudioProcessorEditor (HardClipping
 		switch (i)
 		{
 			case thresholdSlider:
-				sliders[thresholdSlider].setRange(0.0, 0.00001, 0.00000001);
-				sliders[thresholdSlider].setValue(0.0);
-
+				sliders[thresholdSlider].setRange(-100, 0, 1);
+				sliders[thresholdSlider].setValue(-50);
+				sliders[thresholdSlider].setTextValueSuffix(" dB");
 				break;
 			case attackSlider:
 				sliders[attackSlider].setRange(1, 100, 1);
 				sliders[attackSlider].setValue(50);
-				sliders[attackSlider].setTextValueSuffix("ms");
+				sliders[attackSlider].setTextValueSuffix(" ms");
 				break;
 			case decaySlider:
 				sliders[decaySlider].setRange(1, 100, 1);
 				sliders[decaySlider].setValue(50);
-				sliders[decaySlider].setTextValueSuffix("ms");
+				sliders[decaySlider].setTextValueSuffix(" ms");
 				break;
 			case holdSlider:
 				sliders[holdSlider].setRange(1, 1000, 1);
 				sliders[holdSlider].setValue(500);
-				sliders[holdSlider].setTextValueSuffix("ms");
+				sliders[holdSlider].setTextValueSuffix(" ms");
 				break;
-		}
+		} 
 	}
 
 
@@ -93,7 +93,7 @@ void HardClippingAudioProcessorEditor::resized()
 
 void HardClippingAudioProcessorEditor::sliderValueChanged(Slider * slider)
 {
-	processor.gateThreshold = sliders[thresholdSlider].getValue();
+	processor.gateThreshold = Decibels::decibelsToGain(sliders[thresholdSlider].getValue());
 	processor.attackTime = sliders[attackSlider].getValue() * 0.001;
 	processor.decayTime = sliders[decaySlider].getValue() * 0.001;
 	processor.holdTime = sliders[holdSlider].getValue() * 0.001;
