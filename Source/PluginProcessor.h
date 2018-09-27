@@ -60,8 +60,10 @@ public:
     void setStateInformation (const void* data, int sizeInBytes) override;
 
 	double gateThreshold = 0.0;
-	double attackRate = 0.02;
-	double decayRate = 0.02;
+	double attackTime = 0.01;
+	double attackRate = 0.0;
+	double decayTime = 0.01;
+	double decayRate = 0.0;
 	double holdTime = 0.5;
 	double currentSampleRate = 0.0;
 

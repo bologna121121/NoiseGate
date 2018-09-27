@@ -32,14 +32,6 @@ private:
     // access the processor object that created it.
     HardClippingAudioProcessor& processor;
 
-	enum
-	{
-		gateSlider = 0,
-		attackSlider = 1,
-		decaySlider = 2,
-		holdSlider = 3
-	};
-
 	// Values below are expressed as fractions of the current window width and height
 	int sliderCount = 4;
 	double sliderAreaCornerX = 0;
@@ -53,9 +45,15 @@ private:
 	double gapWidth = (sliderAreaWidth - sliderCount * sliderWidth) / (sliderCount + 1.0);
 	double sliderLabelWidth = gapWidth + sliderWidth;
 	std::vector<Slider> sliders{ sliderCount };
-	std::vector<String> sliderLabels{ sliderCount };
+	std::vector<String> sliderLabels{ "Threshold", "Attack", "Decay", "Hold" };
 
-	
+	enum
+	{
+		thresholdSlider = 0,
+		attackSlider = 1,
+		decaySlider = 2,
+		holdSlider = 3
+	};
 
 	void sliderValueChanged(Slider* slider) override;
 

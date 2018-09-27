@@ -101,6 +101,8 @@ void HardClippingAudioProcessor::prepareToPlay (double sampleRate, int samplesPe
 	}
 
 	currentSampleRate = sampleRate;
+	attackRate = 1 / (sampleRate * attackTime);
+	decayRate = 1 / (sampleRate * decayTime);
 }
 
 void HardClippingAudioProcessor::releaseResources()

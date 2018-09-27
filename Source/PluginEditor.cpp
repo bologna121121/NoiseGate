@@ -17,7 +17,7 @@ HardClippingAudioProcessorEditor::HardClippingAudioProcessorEditor (HardClipping
 {
     // Make sure that before the constructor has finished, you've set the
     // editor's size to whatever you need it to be.
-    setSize (300, 300);
+    setSize (100 * sliderCount, 300);
 	setResizable(true, true);
 	AudioProcessorEditor::setResizeLimits(100, 100, 1800, 1000);
 
@@ -31,28 +31,30 @@ HardClippingAudioProcessorEditor::HardClippingAudioProcessorEditor (HardClipping
 
 		switch (i)
 		{
-		case gateSlider:
-			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
-			sliders[gateSlider].setValue(0.0);
-			sliderLabels[i] = "Threshold";
-			break;
-		case attackSlider:
-			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
-			sliders[gateSlider].setValue(0.0);
-			sliderLabels[i] = "Attack";
-			break;
-		case decaySlider:
-			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
-			sliders[gateSlider].setValue(0.0);
-			sliderLabels[i] = "Decay";
-			break;
-		case holdSlider:
-			sliders[gateSlider].setRange(0.0, 0.001, 0.00001);
-			sliders[gateSlider].setValue(0.0);
-			sliderLabels[i] = "Hold";
-			break;
+			case thresholdSlider:
+				sliders[thresholdSlider].setRange(0.0, 0.00001, 0.00000001);
+				sliders[thresholdSlider].setValue(0.0);
+
+				break;
+			case attackSlider:
+				sliders[attackSlider].setRange(1, 100, 1);
+				sliders[attackSlider].setValue(50);
+				sliders[attackSlider].setTextValueSuffix("ms");
+				break;
+			case decaySlider:
+				sliders[decaySlider].setRange(1, 100, 1);
+				sliders[decaySlider].setValue(50);
+				sliders[decaySlider].setTextValueSuffix("ms");
+				break;
+			case holdSlider:
+				sliders[holdSlider].setRange(1, 1000, 1);
+				sliders[holdSlider].setValue(500);
+				sliders[holdSlider].setTextValueSuffix("ms");
+				break;
 		}
 	}
+
+
 }
 
 HardClippingAudioProcessorEditor::~HardClippingAudioProcessorEditor()
@@ -91,5 +93,8 @@ void HardClippingAudioProcessorEditor::resized()
 
 void HardClippingAudioProcessorEditor::sliderValueChanged(Slider * slider)
 {
-	processor.gateThreshold = sliders[gateSlider].getValue();
+	processor.gateThreshold = sliders[thresholdSlider].getValue();
+	processor.attackTime = sliders[attackSlider].getValue() * 0.001;
+	processor.decayTime = sliders[decaySlider].getValue() * 0.001;
+	processor.holdTime = sliders[holdSlider].getValue() * 0.001;
 }
